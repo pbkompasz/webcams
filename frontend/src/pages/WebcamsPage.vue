@@ -7,7 +7,7 @@
 
     <div class="row justify-between">
       <div class="title">Browse Webcams</div>
-      <div>
+      <div v-if="crawlerStatus === 'active'">
         <!-- TODO -->
         Crawl status 12/4343
         <q-btn label="View stats"></q-btn>
@@ -58,7 +58,61 @@
           </video>
         </div>
       </q-tab-panel>
-      <q-tab-panel name="list" class="q-pa-none">
+      <q-tab-panel name="list" class="q-pa-none panel">
+        <q-layout view="hHh Lpr lff" container style="height: 700px"
+          class="shadow-2 rounded-borders">
+          <q-drawer
+          side="right"
+          v-model="drawerRight"
+          show-if-above
+          bordered
+          :width="200"
+          :breakpoint="600"
+          :class="$q.dark.isActive ? 'bg-grey-9' : 'bg-grey-3'"
+        >
+            <div class="q-pa-sm" style="position: fixed;">
+              <div v-for="n in 50" :key="n">Drawer {{ n }} / 50</div>
+            </div>
+        </q-drawer>
+           <q-page-container>
+        <q-page padding>
+          <div class="column">
+            <q-card v-for="webcam in webcams" :key="webcam" @click="drawerRight = !drawerRight"
+              style="cursor: pointer;" class="q-ma-md q-pa-md" flat bordered>
+              <q-card-section horizontal>
+        <q-img
+          class="col-5"
+          src="https://cdn.quasar.dev/img/parallax1.jpg"
+        />
+
+        <q-card-section>
+          Lorem ipsum dolor sit amet consectetur
+          adipisicing elit. Nam amet possimus, maxime quo odit quibusdam,
+          laudantium, numquam
+          illo earum commodi dolores! Consectetur atque eveniet minus vel quasi minima odio earum.
+        </q-card-section>
+      </q-card-section>
+
+      <q-separator />
+
+      <q-card-actions>
+        <q-btn flat round icon="event" />
+        <q-btn flat>
+          5:30PM
+        </q-btn>
+        <q-btn flat>
+          7:00PM
+        </q-btn>
+        <q-btn flat color="primary">
+          Reserve
+        </q-btn>
+      </q-card-actions>
+            </q-card>
+          </div>
+          <div></div>
+        </q-page>
+      </q-page-container>
+        </q-layout>
       </q-tab-panel>
       <q-tab-panel name="map" class="q-pa-none">
       </q-tab-panel>
@@ -105,9 +159,11 @@
 <script setup lang="ts">
 import { useWebcamStore } from 'src/stores/webcam';
 import { onMounted, ref } from 'vue';
+import type { Ref } from 'vue';
 
 const webcamStore = useWebcamStore();
-const webcams = ref([1, 2, 3, 4]);
+const webcams = ref([1, 2, 3, 4, 5, 6, 7]);
+const crawlerStatus: Ref<'active' | 'inactive'> = ref('inactive');
 
 onMounted(() => {
   // webcams.value = webcamStore.getWebcams;
@@ -122,6 +178,8 @@ const addCamera = (type: 'manual' | 'crawl') => {
   dialogType.value = type;
   showDialog.value = true;
 };
+
+const drawerRight = ref(false);
 
 </script>
 
