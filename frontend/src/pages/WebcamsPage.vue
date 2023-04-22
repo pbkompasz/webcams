@@ -114,7 +114,8 @@
       </q-page-container>
         </q-layout>
       </q-tab-panel>
-      <q-tab-panel name="map" class="q-pa-none">
+      <q-tab-panel name="map" class="q-pa-none panel">
+        <WebcamMap></WebcamMap>
       </q-tab-panel>
     </q-tab-panels>
 
@@ -157,20 +158,16 @@
 </template>
 
 <script setup lang="ts">
-import { useWebcamStore } from 'src/stores/webcam';
+import WebcamMap from 'src/components/WebcamMap.vue';
+// import { useWebcamStore } from 'src/stores/webcam';
 import { onMounted, ref } from 'vue';
 import type { Ref } from 'vue';
 
-const webcamStore = useWebcamStore();
+// const webcamStore = useWebcamStore();
 const webcams = ref([1, 2, 3, 4, 5, 6, 7]);
 const crawlerStatus: Ref<'active' | 'inactive'> = ref('inactive');
 
-onMounted(() => {
-  // webcams.value = webcamStore.getWebcams;
-  console.log(webcams.value);
-});
-
-const tab = ref('pane');
+const tab = ref('map');
 const showDialog = ref(false);
 const dialogType = ref('manual');
 
@@ -180,6 +177,10 @@ const addCamera = (type: 'manual' | 'crawl') => {
 };
 
 const drawerRight = ref(false);
+onMounted(async () => {
+  // await webcamStore.fetchWebcams();
+  // webcams.value = webcamStore.getWebcams;
+});
 
 </script>
 

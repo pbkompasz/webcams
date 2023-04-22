@@ -24,13 +24,9 @@ export const useWebcamStore = defineStore('webcam', {
       throw new Error('Not implemented');
     },
     async fetchWebcams() {
-      try {
-        const { client } = await import('boot/axios');
-        const resp: AxiosResponse = await client.get('/vehicle');
-        this.webcams = resp.data.webcams;
-      } catch (error) {
-        console.log(error);
-      }
+      const { client } = await import('boot/axios');
+      const resp: AxiosResponse = await client.get('/vehicle');
+      this.webcams = resp.data.webcams;
     },
   },
 
