@@ -15,7 +15,7 @@ This tool can be extended by storing not only images by webcams, but also images
 ## Development
 
 ``` bash
-docker-compose up
+docker-compose --profile dev up
 ```
 
 ## License
