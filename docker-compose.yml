@@ -5,35 +5,40 @@ services:
     reverse-proxy:
         image: nginx:1.17.10
         profiles: ["dev"]
-        container_name: reverse_proxy
+        container_name: webcams-reverse_proxy
         depends_on: 
-            # - database
+            - database
             - frontend
-            # - backend
+            - backend
         volumes:
             - ./reverse_proxy/nginx.conf:/etc/nginx/nginx.conf
         ports: 
             - 80:80
-        logging:
-          driver: none
-
-    # backend: 
-    #     image: webcams/backend
-    #     profiles: ["dev", "backend"]
-    #     container_name: backend
-    #     depends_on:
-    #         - database
-    #     ports: 
-    #         - 1337:1337
-    #     restart: on-failure
-    #     volumes:
-    #         - ./backend/api:/app/api
+        # logging:
+        #   driver: none
+      
+    backend: 
+        image: webcams/backend
+        profiles: ["dev"]
+        command: python manage.py runserver 0.0.0.0:8000
+        container_name: webcams-backend
+        depends_on:
+            - database
+        ports: 
+            - 8000:8000
+        environment:
+            - POSTGRES_NAME=postgres
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+        restart: on-failure
+        volumes:
+            - ./backend:/code
 
     frontend: 
         image: webcams/frontend
+        build: frontend
         profiles: ["dev"]
-        container_name: frontend
-        entrypoint: [ "yarn", "dev" ]
+        container_name: webcams-frontend
         # depends_on:
             # - backend
         ports:
@@ -42,17 +47,21 @@ services:
         volumes:
             - ./frontend/src:/app/src
 
-    # database:
-    #     image: "postgres" 
-    #     profiles: ["dev", "backend"]
-    #     container_name: database
-    #     ports:
-    #         - 5432:5432
-    #     volumes:
-    #         - database-data:/var/lib/postgresql/data/
-    #     restart: on-failure
-    #     logging:
-    #       driver: none
+    database:
+        image: "postgres" 
+        profiles: ["dev"]
+        container_name: webcams-database
+        ports:
+            - 5432:5432
+        volumes:
+            - database:/var/lib/postgresql/data/
+        environment:
+          - POSTGRES_DB=postgres
+          - POSTGRES_USER=postgres
+          - POSTGRES_PASSWORD=postgres
+        restart: on-failure
+        # logging:
+        #   driver: none
 
-# volumes:
-#     database-data:
+volumes:
+    database:
