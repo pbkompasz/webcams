@@ -1,9 +1,7 @@
 'use strict';
 
 const express = require('express');
-const { crawl } = require('./crawl');
-console.log(crawl);
-crawl();
+const { getStream, parseWebsite } = require('./crawl');
 
 // Constants
 const PORT = 8080;
@@ -15,8 +13,16 @@ app.get('/', (req, res) => {
   res.send('Hello World');
 });
 
-app.post('/crawl', (req, res) => {
-  res.send('registered');
+// Return true if site contains a stream
+app.get('/parse', async (req, res) => {
+  const resp = await parseWebsite(req.query.url);
+  res.send(resp);
+})
+
+// Returns m3u8 and mediafile address
+app.get('/stream', async (req, res) => {
+  const resp = await getStream(req.query.url);
+  res.send(resp);
 })
 
 app.listen(PORT, HOST, () => {
