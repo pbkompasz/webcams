@@ -44,12 +44,12 @@ const essentialLinks: EssentialLinkProps[] = [
     icon: 'settings',
     link: '/settings',
   },
-  {
-    title: 'Github',
-    caption: 'github.com/pbkompasz/webcams',
-    icon: 'code',
-    link: 'https://github.com/pbkompasz/webcams',
-  },
+  // {
+  //   title: 'Github',
+  //   caption: 'github.com/pbkompasz/webcams',
+  //   icon: 'code',
+  //   link: 'https://github.com/pbkompasz/webcams',
+  // },
 ];
 
 const leftDrawerOpen = ref(false);

@@ -3,8 +3,8 @@ import { Cookies } from 'quasar';
 
 const client = axios.create({
   // TODO Fix this
-  baseURL: process.env.BACKEND ?? 'http://localhost/backend',
-  timeout: 1000,
+  baseURL: process.env.BACKEND ?? 'http://localhost/backend/api',
+  timeout: 3000,
   headers: {
     Authorization: `Bearer ${Cookies.get('token')}`,
     'Content-Type': 'application/json',
@@ -30,7 +30,7 @@ client.interceptors.request.use((config) => {
 
 const demoClient = axios.create({
   baseURL: `${process.env.BACKEND}/demo/`,
-  timeout: 1000,
+  timeout: 3000,
   headers: {
     'Content-Type': 'application/json',
   },

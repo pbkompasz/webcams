@@ -23,14 +23,13 @@ const setupLeafletMap = () => {
 };
 
 onMounted(() => {
-  // webcams.value = webcamStore.getWebcams;
   setupLeafletMap();
 });
 
 </script>
 <style>
 #mapContainer {
- width: 80vw;
- height: 100vh;
+ width: 40vw;
+ height: 50vh;
 }
 </style>
