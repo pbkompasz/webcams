@@ -28,12 +28,12 @@ client.interceptors.request.use((config) => {
   return config;
 });
 
-const demoClient = axios.create({
-  baseURL: `${process.env.BACKEND}/demo/`,
-  timeout: 3000,
+const crawlerClient = axios.create({
+  baseURL: `http://localhost/crawl/`,
+  timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-export { axios, client, demoClient };
+export { axios, client, crawlerClient };

@@ -16,13 +16,13 @@ const routes: RouteRecordRaw[] = [
   {
     path: '/analysis',
     component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('pages/WebcamsPage.vue') }],
+    children: [{ path: '', component: () => import('pages/AnalysisPage.vue') }],
   },
 
   {
     path: '/settings',
     component: () => import('layouts/MainLayout.vue'),
-    children: [{ path: '', component: () => import('pages/WebcamsPage.vue') }],
+    children: [{ path: '', component: () => import('pages/SettingsPage.vue') }],
   },
 
   // Always leave this as last one,

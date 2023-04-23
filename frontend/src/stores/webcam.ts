@@ -1,16 +1,34 @@
 import { defineStore } from 'pinia';
 import type { AxiosResponse } from 'axios';
 
+interface GeoLocation {
+  name: string;
+  lat: number;
+  lon: number;
+  description: string;
+}
+
 interface Webcam {
   name: string;
-  live: boolean;
-  location?: Location;
+  status: boolean;
+  location?: GeoLocation;
+  m3u8Address?: string;
+  mediaAddress?: string;
 }
 
 export const useWebcamStore = defineStore('webcam', {
 
   state: () => ({
-    webcams: [],
+    webcams: [{
+      name: 'Budapest Center',
+      status: false,
+      location: {
+        name: 'Budapest',
+        lat: 47.501449887484796,
+        lon: 19.039618179496333,
+        description: 'Budapest Castle Hill Funicular',
+      },
+    }],
   }),
 
   getters: {
@@ -27,6 +45,7 @@ export const useWebcamStore = defineStore('webcam', {
       const { client } = await import('boot/axios');
       const resp: AxiosResponse = await client.get('/webcams?format=json');
       this.webcams = resp.data;
+      console.log(this.webcams);
       return resp.data;
     },
     async crawlWebcams(opts?: any) {
@@ -45,20 +64,45 @@ export const useWebcamStore = defineStore('webcam', {
     async parseWebsite(url: URL | string) {
       // if (!url.isValid())
       //   throw new Error("URL not valid");
-      const { client } = await import('boot/axios');
+      const { crawlerClient: client } = await import('boot/axios');
       try {
-        const resp = await client.post(`/webcams`, {
-          url,
+        const resp = await client.get(`/stream?url=${url}`, {
         });
-        return {
-          type: resp.data.type,
-          noWebcams: resp.data.noWebcams,
-          webcams: resp.data.webcams,
-        };
+        return resp.data;
       } catch (error) {
         return {
           success: false,
           error: 'Error parseing website',
+        };
+      }
+    },
+    async isStream(url: URL | string) {
+      const { crawlerClient: client } = await import('boot/axios');
+      try {
+        const resp = await client.get(`/parse?url=${url}`, {
+        });
+        return resp.data;
+      } catch (error) {
+        return {
+          success: false,
+          error: 'Website does not contain a webcam',
+        };
+      }
+    },
+    async saveWebcam(webcam: Webcam) {
+      const { client } = await import('boot/axios');
+      console.log(webcam);
+      try {
+        const resp = await client.post('/webcams', {
+          webcam,
+        });
+        this.fetchWebcams();
+        return resp.data;
+      } catch (error) {
+        console.log(error);
+        return {
+          error: true,
+          errorMessage: 'Error saving webcam',
         };
       }
     },
