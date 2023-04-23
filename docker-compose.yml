@@ -39,9 +39,13 @@ services:
         image: webcams/crawl
         profiles: ["dev"]
         container_name: webcams-crawl
+        environment:
+            - CHROME_EXECUTABLE=${CHROME_EXECUTABLE}
         ports: 
             - 8080:8080
         restart: on-failure
+        volumes:
+            - ./crawl:/usr/src/app
 
     frontend: 
         image: webcams/frontend
