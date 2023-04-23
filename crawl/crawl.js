@@ -32,8 +32,7 @@ const crawl = async () => {
 const parseWebsite = async () => {
 
 }
-
-crawl();
+console.log(process.env.CHROME_EXECUTABLE)
 
 module.exports = {
   crawl,

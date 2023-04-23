@@ -3,6 +3,7 @@
 const express = require('express');
 const { crawl } = require('./crawl');
 console.log(crawl);
+crawl();
 
 // Constants
 const PORT = 8080;
