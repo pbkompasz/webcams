@@ -10,6 +10,7 @@ services:
             - database
             - frontend
             - backend
+            - crawl
         volumes:
             - ./reverse_proxy/nginx.conf:/etc/nginx/nginx.conf
         ports: 
@@ -33,6 +34,14 @@ services:
         restart: on-failure
         volumes:
             - ./backend:/code
+   
+    crawl: 
+        image: webcams/crawl
+        profiles: ["dev"]
+        container_name: webcams-crawl
+        ports: 
+            - 8080:8080
+        restart: on-failure
 
     frontend: 
         image: webcams/frontend
