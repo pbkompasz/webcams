@@ -4,6 +4,6 @@ from .models import Webcam
 class WebcamSerializer(serializers.ModelSerializer):
   class Meta:
     model = Webcam
-    fields = ["url", "name", "description", "location", "status", "date_added",
-              "added_type", "stream_url"]
+    fields = ["url", "name", "description", "status", "date_added",
+              "added_type", "m3u8_address"]
   

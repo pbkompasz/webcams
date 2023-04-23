@@ -8,18 +8,23 @@ import datetime
 
 # Create your models here.
 
+class Location(models.Model):
+  name = models.CharField(max_length=50, blank=True, null=True)
+  lat = models.FloatField(blank=True, null=True)
+  lon = models.FloatField(blank=True, null=True)
+
 class Webcam(models.Model):
   url = models.CharField(max_length=180)
-  name = models.CharField(max_length=30)
-  description = models.CharField(max_length=180, blank=True)
+  name = models.CharField(max_length=180)
+  description = models.CharField(max_length=180, blank=True, null=True)
   # TODO Geojson
-  location = models.CharField(max_length=180, blank=True)
+  # location = models.OneToOneField(Location, on_delete=models.CASCADE, primary_key=True)
   status = models.BooleanField(default=False)
-  date_added = models.DateField(blank=True)
+  date_added = models.DateField(blank=True, null=True)
   added_type = models.CharField(max_length=10, default='manual')
   # TODO Same as in paper (IP and NON-IP camera)
   # type = models.CharField(default='non-ip')
-  stream_url = models.CharField(max_length=180)
+  m3u8_address = models.CharField(max_length=180, blank=True, null=True)
 
   
 

@@ -13,17 +13,14 @@ class WebcamListApiView(APIView):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
   def post(self, request, *args, **kwargs):
-    url = request.data.get('url')
-    parsed_website = Crawler.parse_website(self, url)
-    print(parsed_website)
+    webcam = request.data.get('webcam')
 
-    if (parsed_website['webcam_data'] != None):
-      serializer = WebcamSerializer(data=parsed_website.webcam_data)
-      if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    serializer = WebcamSerializer(data=webcam)
+    if serializer.is_valid():
+      serializer.save()
+      return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    return Response(status=status.HTTP_400_BAD_REQUEST)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class CrawlerApiView(APIView):
   def post(self, request, *args, **kwargs):
