@@ -1,5 +1,7 @@
 # Open Webcam
 
+![Webcam](./images/webcam.jpg)
+
 ## Team Members
 [Peter Kompasz](https://github.com/pbkompasz)
 
